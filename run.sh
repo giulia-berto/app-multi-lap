@@ -112,6 +112,7 @@ done
 echo "AFQ conversion of ground truth to trk"
 matlab -nosplash -nodisplay -r "afqConverter1()";
 
+
 echo "Running multi-LAP"
 mkdir tracts_tck;
 run=multi-LAP	
@@ -138,6 +139,7 @@ while read tract_name; do
 	output_filename=${subjID}_${tract_name}_ROC_${run}.png
 	python plot_roc_curve.py -candidate_idx $candidate_idx_lap -true_tract $tract_name'_tract.trk' -static $subjID'_track.trk' -out $output_filename;
 
+
 echo "Running multi-NN"
 mkdir tracts_tck_nn;
 run=multi-NN	
@@ -146,7 +148,7 @@ while read tract_name; do
 	echo "Tract name: $tract_name"; 
 	base_name=$tract_name'_tract'
 	output_filename=tracts_tck_nn/${subjID}_${base_name}_${run}.tck
-	python lap_multiple_examples.py -moving_dir tractograms_directory -static $subjID'_track.trk' -ex_dir examples_directory_$tract_name -out $output_filename;
+	python nn_multiple_examples.py -moving_dir tractograms_directory -static $subjID'_track.trk' -ex_dir examples_directory_$tract_name -out $output_filename;
 
 done < tract_name_list.txt
 
@@ -166,6 +168,14 @@ else
 	echo "Partial tractogram missing."
 	exit 1
 fi
+
+echo "Computing ROC curve for multi-NN"
+while read tract_name; do
+	echo "Tract name: $tract_name"; 
+	candidate_idx_nn=candidate_bundle_idx_ranked_nn.npy
+	output_filename=${subjID}_${tract_name}_ROC_${run}.png
+	python plot_roc_curve.py -candidate_idx $candidate_idx_nn -true_tract $tract_name'_tract.trk' -static $subjID'_track.trk' -out $output_filename;
+
 
 echo "Build a wmc structure"
 stat_sub=\'$subjID\'
