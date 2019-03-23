@@ -7,6 +7,7 @@ t1_static=`jq -r '.t1_static' config.json`
 segmentations=`jq -r '.segmentations' config.json`
 movings=`jq -r '.tractograms_moving' config.json`
 t1s=`jq -r '.t1s_moving' config.json`
+true_segmentation=`jq -r '.true_segmentation' config.json`
 
 # Building arrays
 arr_seg=()
@@ -107,8 +108,9 @@ do
 			echo "examples_directory created."; 
 		fi	
 	done < tract_name_list.txt
-
 done
+echo "AFQ conversion of ground truth to trk"
+matlab -nosplash -nodisplay -r "afqConverter1()";
 
 echo "Running multi-LAP"
 mkdir tracts_tck;
@@ -127,6 +129,32 @@ if [ -z "$(ls -A -- "tracts_tck")" ]; then
 	exit 1
 else    
 	echo "multi-LAP done."
+fi
+
+echo "Computing ROC curve for multi-LAP"
+while read tract_name; do
+	echo "Tract name: $tract_name"; 
+	candidate_idx_lap=candidate_bundle_idx_ranked_lap.npy
+	output_filename=${subjID}_${tract_name}_ROC_${run}.png
+	python plot_roc_curve.py -candidate_idx $candidate_idx_lap -true_tract $tract_name'_tract.trk' -static $subjID'_track.trk' -out $output_filename;
+
+echo "Running multi-NN"
+mkdir tracts_tck_nn;
+run=multi-NN	
+
+while read tract_name; do
+	echo "Tract name: $tract_name"; 
+	base_name=$tract_name'_tract'
+	output_filename=tracts_tck_nn/${subjID}_${base_name}_${run}.tck
+	python lap_multiple_examples.py -moving_dir tractograms_directory -static $subjID'_track.trk' -ex_dir examples_directory_$tract_name -out $output_filename;
+
+done < tract_name_list.txt
+
+if [ -z "$(ls -A -- "tracts_tck_nn")" ]; then    
+	echo "multi-NN failed."
+	exit 1
+else    
+	echo "multi-NN done."
 fi
 
 echo "Build partial tractogram"

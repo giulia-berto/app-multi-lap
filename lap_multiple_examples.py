@@ -60,6 +60,7 @@ def lap_multiple_examples(moving_tractograms_dir, static_tractogram, ex_dir, out
 
 		print("Ranking the estimated streamlines...")
 		estimated_bundle_idx_ranked = ranking_schema(estimated_bundle_idx, min_cost_values)
+		np.save('candidate_bundle_idx_ranked_lap.npy', estimated_bundle_idx_ranked)
 
 		print("Extracting the estimated bundle...")
 		estimated_bundle_idx_ranked_med = estimated_bundle_idx_ranked[0:int(example_bundle_len_med)]
