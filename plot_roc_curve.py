@@ -77,7 +77,7 @@ if __name__ == '__main__':
 	args = parser.parse_args()
 
 	print("Loading data..")
-	candidate_idx_ranked = nib.streamlines.load(args.candidate_idx).streamlines
+	candidate_idx_ranked = np.load(args.candidate_idx)
 	true_tract = nib.streamlines.load(args.true_tract).streamlines
 	target_tractogram = nib.streamlines.load(args.static).streamlines
 
