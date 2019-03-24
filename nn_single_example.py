@@ -33,7 +33,6 @@ def nn_single_example(moving_tractogram, static_tractogram, example):
 
 	with open('config.json') as f:
 	    data = json.load(f)
-	    k = data["k"]
 	    step_size = data["step_size"]
 	distance_func = bundles_distances_mam
 
@@ -71,7 +70,7 @@ def nn_single_example(moving_tractogram, static_tractogram, example):
 	dm_example_bundle_aligned = distance_func(example_bundle_aligned, prototypes)
 
 	print("Segmentation as Nearest Neighbour (NN).")
-	estimated_bundle_idx, min_cost_values = NN(kdt, k=1, dm_example_bundle_aligned)
+	estimated_bundle_idx, min_cost_values = NN(kdt, 1, dm_example_bundle_aligned)
 	estimated_bundle = static_tractogram[estimated_bundle_idx]
 
 	return estimated_bundle_idx, min_cost_values, len(example_bundle)
