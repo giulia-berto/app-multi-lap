@@ -33,20 +33,16 @@ def compute_superset(true_tract, kdt, prototypes, k=1000, distance_func=bundles_
     return superset_idx
 
 
-def streamlines_idx(target_tract, kdt, prototypes, distance_func=bundles_distances_mam, nb_points=20, warning_threshold=1.0e-3):
+def streamlines_idx(target_tract, kdt, prototypes, distance_func=bundles_distances_mam, warning_threshold=1.0e-4):
     """Retrieve indexes of the streamlines of the target tract.
     """
-    if distance_func==bundles_distances_mdf:
-    	print("Resampling the tract with %s points" %nb_points)
-    	target_tract = set_number_of_points(target_tract, nb_points)
-    distance = partial(parallel_distance_computation, distance=distance_func)
-    dm_target_tract = distance(target_tract, prototypes)
+    dm_target_tract = distance_func(target_tract, prototypes)
     D, I = kdt.query(dm_target_tract, k=1)
     if (D > warning_threshold).any():
-        print("WARNING (streamlines_idx()): for %s streamlines D > 1.0e-3 !!" % (D > warning_threshold).sum())
+        print("WARNING (streamlines_idx()): for %s streamlines D > 1.0e-4 !!" % (D > warning_threshold).sum())
     #print(D)
     target_tract_idx = I.squeeze()
-    return target_tract_idx
+    return target_tract_idx 
 
 
 def compute_kdtree_and_dr_tractogram(tractogram, num_prototypes=None):
