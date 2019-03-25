@@ -20,6 +20,10 @@ echo "Finished loading modules"
 
 export PYTHONPATH=/N/u/brlife/git/nibabel:$PYTHONPATH
 
+echo "setting miniconda path..."
+unset PYTHONPATH
+export PATH=/N/u/gberto/Karst/miniconda2/bin:$PATH 
+
 #execute app
 ./run.sh
 

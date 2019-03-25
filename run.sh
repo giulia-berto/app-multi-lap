@@ -139,6 +139,7 @@ while read tract_name; do
 	output_filename=${subjID}_${tract_name}_ROC_${run}.png
 	python plot_roc_curve.py -candidate_idx $candidate_idx_lap -true_tract $tract_name'_tract.trk' -static $subjID'_track.trk' -out $output_filename;
 
+done < tract_name_list.txt
 
 echo "Running multi-NN"
 mkdir tracts_tck_nn;
@@ -159,6 +160,16 @@ else
 	echo "multi-NN done."
 fi
 
+echo "Computing ROC curve for multi-NN"
+while read tract_name; do
+	echo "Tract name: $tract_name"; 
+	candidate_idx_nn=candidate_bundle_idx_ranked_nn.npy
+	output_filename=${subjID}_${tract_name}_ROC_${run}.png
+	python plot_roc_curve.py -candidate_idx $candidate_idx_nn -true_tract $tract_name'_tract.trk' -static $subjID'_track.trk' -out $output_filename;
+
+done < tract_name_list.txt
+
+
 echo "Build partial tractogram"
 output_filename=${subjID}'_var-partial_tract_'${run}'.tck';
 python build_partial_tractogram.py -tracts_tck_dir 'tracts_tck' -out ${output_filename};
@@ -168,13 +179,6 @@ else
 	echo "Partial tractogram missing."
 	exit 1
 fi
-
-echo "Computing ROC curve for multi-NN"
-while read tract_name; do
-	echo "Tract name: $tract_name"; 
-	candidate_idx_nn=candidate_bundle_idx_ranked_nn.npy
-	output_filename=${subjID}_${tract_name}_ROC_${run}.png
-	python plot_roc_curve.py -candidate_idx $candidate_idx_nn -true_tract $tract_name'_tract.trk' -static $subjID'_track.trk' -out $output_filename;
 
 
 echo "Build a wmc structure"

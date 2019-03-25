@@ -22,8 +22,8 @@ from utils import resample_tractogram, compute_superset, compute_kdtree_and_dr_t
 def NN(kdt, k, dm_source_tract):
     """Compute the k-NN.
     """
-    D, I = kdt.query(dm_source_tract, k=k)
-    return I[0], D[0]
+    D, I = kdt.query(dm_source_tract, k)
+    return I.squeeze(), D.squeeze()
 
 
 def nn_single_example(moving_tractogram, static_tractogram, example):

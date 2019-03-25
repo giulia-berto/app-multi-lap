@@ -8,10 +8,12 @@ import argparse
 import os.path
 import nibabel as nib
 import numpy as np
+import json
 from nibabel.streamlines import load, save 
 from utils import compute_kdtree_and_dr_tractogram, streamlines_idx
 import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve, auc
+from utils import resample_tractogram
 
 
 def compute_roc_curve(candidate_idx_ranked, true_tract, target_tractogram):
@@ -57,8 +59,8 @@ def plot_roc_curve(fpr, tpr, AUC, out_fname):
 	plt.ylabel('True Positive Rate')
   	plt.title('ROC curve %s' %out_fname)
    	plt.legend(loc="lower right")
-   	plt.savefig(out_fname)
-
+   	#plt.savefig(out_fname)
+	plt.show()
 
 
 if __name__ == '__main__':
@@ -76,12 +78,21 @@ if __name__ == '__main__':
 	                    help='The output filename')                               
 	args = parser.parse_args()
 
+	with open('config.json') as f:
+		data = json.load(f)
+		step_size = data["step_size"]
+
 	print("Loading data..")
 	candidate_idx_ranked = np.load(args.candidate_idx)
 	true_tract = nib.streamlines.load(args.true_tract).streamlines
-	target_tractogram = nib.streamlines.load(args.static).streamlines
+	print("Resampling with step size = %s mm" %step_size)
+	true_tract_res = resample_tractogram(true_tract, step_size)
+	true_tract = true_tract_res
+	static_tractogram = nib.streamlines.load(args.static).streamlines
+	static_tractogram_res = resample_tractogram(static_tractogram, step_size)
+	static_tractogram = static_tractogram_res
 
-	fpr, tpr, AUC = compute_roc_curve(candidate_idx_ranked, true_tract, target_tractogram)
+	fpr, tpr, AUC = compute_roc_curve(candidate_idx_ranked, true_tract, static_tractogram)
 
 	if args.out:
 		plot_roc_curve(fpr, tpr, AUC, args.out)
