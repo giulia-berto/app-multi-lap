@@ -133,6 +133,7 @@ else
 fi
 
 echo "Computing ROC curve for multi-LAP"
+mkdir csv;
 while read tract_name; do
 	echo "Tract name: $tract_name"; 
 	candidate_idx_lap=candidate_bundle_idx_ranked_lap.npy
@@ -140,6 +141,7 @@ while read tract_name; do
 	python plot_roc_curve.py -candidate_idx $candidate_idx_lap -true_tract $tract_name'_tract.trk' -static $subjID'_track.trk' -out $output_filename;
 
 done < tract_name_list.txt
+
 
 echo "Running multi-NN"
 mkdir tracts_tck_nn;
@@ -171,6 +173,7 @@ done < tract_name_list.txt
 
 
 echo "Build partial tractogram"
+run=multi-LAP
 output_filename=${subjID}'_var-partial_tract_'${run}'.tck';
 python build_partial_tractogram.py -tracts_tck_dir 'tracts_tck' -out ${output_filename};
 if [ -f ${output_filename} ]; then 
@@ -179,7 +182,6 @@ else
 	echo "Partial tractogram missing."
 	exit 1
 fi
-
 
 echo "Build a wmc structure"
 stat_sub=\'$subjID\'

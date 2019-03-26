@@ -1,6 +1,6 @@
 #!/bin/bash
 #PBS -k o
-#PBS -l nodes=1:ppn=16,walltime=12:00:00
+#PBS -l nodes=1:ppn=16,walltime=30:00:00
 
 ## modules
 echo "Loading modules"
@@ -11,7 +11,7 @@ module unload python
 module load dipy/dev
 module load nodejs
 module unload mrtrix/0.2.12 
-module load mrtrix/0.3.15
+module load mrtrix/3.0
 module unload fsl
 module load fsl/5.0.9
 module unload freesurfer/5.3.0

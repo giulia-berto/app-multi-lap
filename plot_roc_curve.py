@@ -9,6 +9,7 @@ import os.path
 import nibabel as nib
 import numpy as np
 import json
+import csv
 from nibabel.streamlines import load, save 
 from utils import compute_kdtree_and_dr_tractogram, streamlines_idx
 import matplotlib.pyplot as plt
@@ -59,7 +60,7 @@ def plot_roc_curve(fpr, tpr, AUC, out_fname):
 	plt.ylabel('True Positive Rate')
   	plt.title('ROC curve %s' %out_fname)
    	plt.legend(loc="lower right")
-   	#plt.savefig(out_fname)
+   	plt.savefig(out_fname)
 	plt.show()
 
 
@@ -74,6 +75,8 @@ if __name__ == '__main__':
 	                    help='The true tract filename')
 	parser.add_argument('-static', nargs='?',  const=1, default='',
 	                    help='The static tractogram filename')  
+	parser.add_argument('-run', nargs='?',  const=1, default='',
+	                    help='The configuration run') 
 	parser.add_argument('-out', nargs='?',  const=1, default='',
 	                    help='The output filename')                               
 	args = parser.parse_args()
@@ -96,5 +99,11 @@ if __name__ == '__main__':
 
 	if args.out:
 		plot_roc_curve(fpr, tpr, AUC, args.out)
+	
+	with open('csv/output_FiberStats.csv', 'a') as csvFile:
+		writer = csv.writer(csvFile)
+		writer.writerow(np.float16(fpr))
+		writer.writerow(np.float16(tpr))
+		writer.writerow(AUC*np.ones(1, dtype=np.float16))
 
-	sys.exit() 
+	sys.exit()

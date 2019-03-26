@@ -25,7 +25,7 @@ def tractograms_slr(moving_tractogram, static_tractogram):
 	exID = ntpath.basename(moving_tractogram)[0:6]
 
 	aff_dir = '/N/dc2/projects/lifebid/giulia/data/HCP3-IU-Giulia/derivatives/slr_transformations'
-	affine_path = '%/affine_m%s_s%s.npy' %(aff_dir, exID, subjID)
+	affine_path = '%s/affine_m%s_s%s.npy' %(aff_dir, exID, subjID)
 	affine_fname = './affine_m%s_s%s.npy' %(exID, subjID)
 
 	if isfile(affine_path):
