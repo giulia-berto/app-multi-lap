@@ -30,17 +30,22 @@ def compute_roc_curve(candidate_idx_ranked, true_tract, target_tractogram):
     print("Compute y_score.")
     y_score = np.arange(len(candidate_idx_ranked),0,-1)
 
-    print("Compute y_true.")
-    diff = np.setdiff1d(true_tract_idx, candidate_idx_ranked)
+    #print("Compute y_true.")
+    #diff = np.setdiff1d(true_tract_idx, candidate_idx_ranked)
 
-    if (len(diff) != 0):
-	   print("There are %s/%s streamlines of the true tract that aren't in the superset. Making the superset bigger." %(len(diff), len(true_tract_idx)))
-	   candidate_idx_ranked = np.concatenate([candidate_idx_ranked, diff])
-	   y_score = np.concatenate([y_score, np.zeros(len(diff))])
+    #if (len(diff) != 0):
+	#   print("There are %s/%s streamlines of the true tract that aren't in the superset. Making the superset bigger." %(len(diff), len(true_tract_idx)))
+	#   candidate_idx_ranked = np.concatenate([candidate_idx_ranked, diff])
+	#   y_score = np.concatenate([y_score, np.zeros(len(diff))])
 
-    y_true = np.zeros(len(candidate_idx_ranked))
-    correspondent_idx_true = np.array([np.where(candidate_idx_ranked==true_tract_idx[i]) for i in range(len(true_tract_idx))])
-    y_true[correspondent_idx_true] = 1
+    #y_true = np.zeros(len(candidate_idx_ranked))
+    #correspondent_idx_true = np.array([np.where(candidate_idx_ranked==true_tract_idx[i]) for i in range(len(true_tract_idx))])
+    #y_true[correspondent_idx_true] = 1
+
+	print("Compute y_true.")
+	y_true = np.zeros(len(candidate_idx_ranked))
+	correspondent_idx_true = np.hstack([np.where(candidate_idx_ranked==true_tract_idx[i]) for i in range(len(true_tract_idx))])
+	y_true[correspondent_idx_true] = 1	
 
     print("Compute ROC curve and AUC.")
     fpr, tpr, thresholds = roc_curve(y_true, y_score)
@@ -50,17 +55,17 @@ def compute_roc_curve(candidate_idx_ranked, true_tract, target_tractogram):
 
 
 #def plot_roc_curve(fpr, tpr, AUC, out_fname):
-#   	plt.figure()
-#   	lw = 1
-#   	plt.plot(fpr, tpr, color='darkorange', lw=lw, label='ROC curve (area = %0.2f)' %AUC)
+#  	plt.figure()
+#  	lw = 1
+#  	plt.plot(fpr, tpr, color='darkorange', lw=lw, label='ROC curve (area = %0.2f)' %AUC)
 #	plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
 #	plt.xlim([0.0, 1.0])
 # 	plt.ylim([0.0, 1.05])
 #	plt.xlabel('False Positive Rate')
 #	plt.ylabel('True Positive Rate')
 # 	plt.title('ROC curve %s' %out_fname)
-#   	plt.legend(loc="lower right")
-#   	plt.savefig(out_fname)
+#  	plt.legend(loc="lower right")
+#  	plt.savefig(out_fname)
 #	plt.show()
 
 
