@@ -12,7 +12,7 @@ import json
 import csv
 from nibabel.streamlines import load, save 
 from utils import compute_kdtree_and_dr_tractogram, streamlines_idx
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve, auc
 from utils import resample_tractogram
 
@@ -49,19 +49,19 @@ def compute_roc_curve(candidate_idx_ranked, true_tract, target_tractogram):
     return fpr, tpr, AUC
 
 
-def plot_roc_curve(fpr, tpr, AUC, out_fname):
-   	plt.figure()
-   	lw = 1
-   	plt.plot(fpr, tpr, color='darkorange', lw=lw, label='ROC curve (area = %0.2f)' %AUC)
-	plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
-	plt.xlim([0.0, 1.0])
- 	plt.ylim([0.0, 1.05])
-	plt.xlabel('False Positive Rate')
-	plt.ylabel('True Positive Rate')
-  	plt.title('ROC curve %s' %out_fname)
-   	plt.legend(loc="lower right")
-   	plt.savefig(out_fname)
-	plt.show()
+#def plot_roc_curve(fpr, tpr, AUC, out_fname):
+#   	plt.figure()
+#   	lw = 1
+#   	plt.plot(fpr, tpr, color='darkorange', lw=lw, label='ROC curve (area = %0.2f)' %AUC)
+#	plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
+#	plt.xlim([0.0, 1.0])
+# 	plt.ylim([0.0, 1.05])
+#	plt.xlabel('False Positive Rate')
+#	plt.ylabel('True Positive Rate')
+# 	plt.title('ROC curve %s' %out_fname)
+#   	plt.legend(loc="lower right")
+#   	plt.savefig(out_fname)
+#	plt.show()
 
 
 if __name__ == '__main__':
