@@ -61,6 +61,8 @@ def nn_multiple_examples(moving_tractograms_dir, static_tractogram, ex_dir, out_
 		print("Ranking the estimated streamlines...")
 		estimated_bundle_idx_ranked = ranking_schema(estimated_bundle_idx, min_cost_values)
 		np.save('candidate_bundle_idx_ranked_nn.npy', estimated_bundle_idx_ranked)
+		np.save('candidate_bundle_idx_nn.npy', estimated_bundle_idx)
+		np.save('min_cost_values_nn.npy', min_cost_values)
 
 		print("Extracting the estimated bundle...")
 		estimated_bundle_idx_ranked_med = estimated_bundle_idx_ranked[0:int(example_bundle_len_med)]
