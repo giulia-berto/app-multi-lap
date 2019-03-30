@@ -136,9 +136,10 @@ echo "Computing ROC curve for multi-LAP"
 mkdir csv;
 while read tract_name; do
 	echo "Tract name: $tract_name"; 
-	candidate_idx_lap=candidate_bundle_idx_ranked_lap.npy
+	candidate_idx_lap=candidate_bundle_idx_lap.npy
+	min_cost_lap=min_cost_values_lap.npy
 	output_filename=${subjID}_${tract_name}_ROC_${run}.png
-	python plot_roc_curve.py -candidate_idx $candidate_idx_lap -true_tract $tract_name'_tract.trk' -static $subjID'_track.trk';
+	python plot_roc_curve.py -candidate_idx $candidate_idx_lap -cost $min_cost_lap -true_tract $tract_name'_tract.trk' -static $subjID'_track.trk';
 
 done < tract_name_list.txt
 
@@ -165,9 +166,10 @@ fi
 echo "Computing ROC curve for multi-NN"
 while read tract_name; do
 	echo "Tract name: $tract_name"; 
-	candidate_idx_nn=candidate_bundle_idx_ranked_nn.npy
+	candidate_idx_nn=candidate_bundle_idx_nn.npy
+	min_cost_nn=min_cost_values_nn.npy
 	output_filename=${subjID}_${tract_name}_ROC_${run}.png
-	python plot_roc_curve.py -candidate_idx $candidate_idx_nn -true_tract $tract_name'_tract.trk' -static $subjID'_track.trk';
+	python plot_roc_curve.py -candidate_idx $candidate_idx_nn -cost $min_cost_nn -true_tract $tract_name'_tract.trk' -static $subjID'_track.trk';
 
 done < tract_name_list.txt
 
