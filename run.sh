@@ -171,6 +171,7 @@ while read tract_name; do
 
 done < tract_name_list.txt
 
+
 echo "Build partial tractogram"
 run=multi-LAP
 output_filename=${subjID}'_var-partial_tract_'${run}'.tck';
