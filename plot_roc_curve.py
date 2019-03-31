@@ -84,9 +84,9 @@ if __name__ == '__main__':
 	static_tractogram_res = resample_tractogram(static_tractogram, step_size)
 	static_tractogram = static_tractogram_res
 	print("Compute the dissimilarity representation of the target tractogram and build the kd-tree.")
-    kdt, prototypes = compute_kdtree_and_dr_tractogram(static_tractogram)
-    print("Retrieving indeces of the true_tract")
-    true_tract_idx = streamlines_idx(true_tract, kdt, prototypes)
+	kdt, prototypes = compute_kdtree_and_dr_tractogram(static_tractogram)
+	print("Retrieving indeces of the true_tract")
+	true_tract_idx = streamlines_idx(true_tract, kdt, prototypes)
 
 	fpr, tpr, AUC = compute_roc_curve(candidate_bundle_idx, min_cost_values, true_tract_idx)
 
