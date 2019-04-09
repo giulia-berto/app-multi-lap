@@ -33,13 +33,13 @@ if [ ! $ret -eq 0 ]; then
 fi
 
 #removing files
-#rm *.trk -f
-#rm *.tck -f
-#rm *.nii.gz -f
-#rm -r tractograms_directory -f
-#rm -r examples_directory* -f
-#rm kdt -f
-#rm prototypes.npy -f
-#rm distance* -f
+rm *.trk -f
+rm *.tck -f
+rm *.nii.gz -f
+rm -r tractograms_directory -f
+rm -r examples_directory* -f
+rm kdt -f
+rm prototypes.npy -f
+rm distance* -f
 
 echo "Complete"
