@@ -216,4 +216,8 @@ else
 	exit 1
 fi
 
+est_tck=$(ls tracts_tck)
+python tck2trk.py $t1_static $est_tck -f;
+mv tracts_tck/*.trk track.trk
+
 echo "Complete"
