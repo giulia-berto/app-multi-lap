@@ -194,6 +194,12 @@ while read tract_name; do
 done < tract_name_list.txt
 
 
+if [[ $true_segmentation == *.trk ]];then
+est_tck=$(ls tracts_tck)
+python tck2trk.py $t1_static $est_tck -f;
+mv tracts_tck/*.trk track.trk
+
+else
 echo "Build partial tractogram"
 run=multi-LAP
 output_filename=${subjID}'_var-partial_tract_'${run}'.tck';
@@ -215,9 +221,6 @@ else
 	echo "WMC structure missing."
 	exit 1
 fi
-
-est_tck=$(ls tracts_tck)
-python tck2trk.py $t1_static $est_tck -f;
-mv tracts_tck/*.trk track.trk
+fi
 
 echo "Complete"
