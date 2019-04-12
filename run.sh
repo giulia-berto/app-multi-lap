@@ -194,7 +194,7 @@ while read tract_name; do
 done < tract_name_list.txt
 
 
-if [[ $true_segmentation == *.trk ]]; then
+if [[ $true_segmentation == *.trk ]];then
 	est_tck=$(ls tracts_tck)
 	echo "${est_tck}";
 	python tck2trk.py $t1_static tracts_tck/${est_tck};
