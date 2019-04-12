@@ -131,7 +131,7 @@ else
 	done
 	echo "AFQ conversion of ground truth to trk"
 	matlab -nosplash -nodisplay -r "afqConverter1()";
-done
+fi
 
 echo "Running multi-LAP"
 mkdir tracts_tck;
