@@ -194,33 +194,31 @@ while read tract_name; do
 done < tract_name_list.txt
 
 
-if [[ $true_segmentation == *.trk ]];then
-est_tck=$(ls tracts_tck)
-python tck2trk.py $t1_static tracts_tck/$est_tck -f;
-mv tracts_tck/*.trk track.trk
-
+if [[ $true_segmentation == *.trk ]]; then
+	est_tck=$(ls tracts_tck)
+	python tck2trk.py $t1_static tracts_tck/$est_tck -f;
+	mv tracts_tck/*.trk track.trk
 else
-echo "Build partial tractogram"
-run=multi-LAP
-output_filename=${subjID}'_var-partial_tract_'${run}'.tck';
-python build_partial_tractogram.py -tracts_tck_dir 'tracts_tck' -out ${output_filename};
-if [ -f ${output_filename} ]; then 
-    echo "Partial tractogram built."
-else 
-	echo "Partial tractogram missing."
-	exit 1
-fi
-
-echo "Build a wmc structure"
-stat_sub=\'$subjID\'
-tag=\'$run\'
-matlab -nosplash -nodisplay -r "build_wmc_structure($stat_sub, $tag)";
-if [ -f 'output.mat' ]; then 
-    echo "WMC structure created."
-else 
-	echo "WMC structure missing."
-	exit 1
-fi
+	echo "Build partial tractogram"
+	run=multi-LAP
+	output_filename=${subjID}'_var-partial_tract_'${run}'.tck';
+	python build_partial_tractogram.py -tracts_tck_dir 'tracts_tck' -out ${output_filename};
+	if [ -f ${output_filename} ]; then 
+	    echo "Partial tractogram built."
+	else 
+		echo "Partial tractogram missing."
+		exit 1
+	fi
+	echo "Build a wmc structure"
+	stat_sub=\'$subjID\'
+	tag=\'$run\'
+	matlab -nosplash -nodisplay -r "build_wmc_structure($stat_sub, $tag)";
+	if [ -f 'output.mat' ]; then 
+	    echo "WMC structure created."
+	else 
+		echo "WMC structure missing."
+		exit 1
+	fi
 fi
 
 echo "Complete"
