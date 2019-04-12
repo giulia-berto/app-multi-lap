@@ -106,7 +106,7 @@ if [[ $true_segmentation == *.trk ]];then
 	for i in `seq 1 $num_ex`; 
 	do
 		id_mov=$(jq -r "._inputs[1+$i+$num_ex].meta.subject" config.json | tr -d "_")
-		cp ${arr_mov[i]//[,\"]} examples_directory_$tract_name/$id_mov'_'$tract_name'_tract.trk';
+		cp ${arr_seg[i]//[,\"]} examples_directory_$tract_name/$id_mov'_'$tract_name'_tract.trk';
 	done
 else
 	for i in `seq 1 $num_ex`; 
