@@ -193,6 +193,8 @@ while read tract_name; do
 
 done < tract_name_list.txt
 
+cp csv/output_FiberStats.csv ./output_FiberStats.csv
+
 if [[ $true_segmentation == *.trk ]];then
 	est_tck=$(ls tracts_tck)
 	echo "${est_tck}"
