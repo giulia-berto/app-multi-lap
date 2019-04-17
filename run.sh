@@ -99,7 +99,7 @@ done
 echo "Tracts conversion to trk"
 if [[ $true_segmentation == *.trk ]];then
 	echo "Tracts already in .trk format"
-	tract_name=$(jq -r "._inputs[2+$num_ex+$num_ex+$num_ex].datatype_tags[1]" config.json | tr -d "_")
+	tract_name=$(jq -r "._inputs[2+$num_ex+$num_ex+$num_ex].tags[0]" config.json | tr -d "_")
 	echo $tract_name > tract_name_list.txt
 	cp $true_segmentation ${tract_name}_tract.trk
 	mkdir examples_directory_$tract_name;
