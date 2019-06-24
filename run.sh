@@ -8,6 +8,7 @@ segmentations=`jq -r '.segmentations' config.json`
 movings=`jq -r '.tractograms_moving' config.json`
 t1s=`jq -r '.t1s_moving' config.json`
 true_segmentation=`jq -r '.true_segmentation' config.json`
+tractID=`jq -r '.tract' config.json`
 
 # Building arrays
 arr_seg=()
@@ -112,8 +113,11 @@ else
 	for i in `seq 1 $num_ex`; 
 	do
 		t1_moving=${arr_t1s[i]//[,\"]}
-		id_mov=$(jq -r "._inputs[1+$i+$num_ex].meta.subject" config.json | tr -d "_")		
-		matlab -nosplash -nodisplay -r "afqConverterMulti(${arr_seg[i]//,}, ${arr_t1s[i]//,})";
+		id_mov=$(jq -r "._inputs[1+$i+$num_ex].meta.subject" config.json | tr -d "_")
+		tractogram_moving=tractograms_directory/$id_mov'_track.trk'		
+		seg_file=${arr_seg[i]//[,\"]}
+		#matlab -nosplash -nodisplay -r "afqConverterMulti(${arr_seg[i]//,}, ${arr_t1s[i]//,})";
+		python convert_wmc2trk.py -moving $tractogram_moving -classification $seg_file -t1 $t1_moving
 		while read tract_name; do
 			echo "Tract name: $tract_name";
 			if [ ! -d "examples_directory_$tract_name" ]; then
@@ -129,8 +133,8 @@ else
 			fi	
 		done < tract_name_list.txt
 	done
-	echo "AFQ conversion of ground truth to trk"
-	matlab -nosplash -nodisplay -r "afqConverter1()";
+	#echo "AFQ conversion of ground truth to trk"
+	#matlab -nosplash -nodisplay -r "afqConverter1()";
 fi
 
 echo "Running multi-LAP"
