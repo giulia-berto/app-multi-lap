@@ -53,6 +53,7 @@ if __name__ == '__main__':
                         help='The tract id')
     args = parser.parse_args()
     
+    print("Convert a single wmc classified tract into a single trk file")
     wmc2trk(args.tractogram, args.classification, eval(args.tractID))
 
     sys.exit()
