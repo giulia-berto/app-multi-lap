@@ -58,6 +58,7 @@ def lap_single_example(moving_tractogram, static_tractogram, example):
 	    data = json.load(f)
 	    k = data["k"]
 	    step_size = data["step_size"]
+		slr = data["slr"]
 	distance_func = bundles_distances_mam
 
 	subjID = ntpath.basename(static_tractogram)[0:6]
@@ -67,10 +68,14 @@ def lap_single_example(moving_tractogram, static_tractogram, example):
 	example_bundle = example_bundle.streamlines
 	example_bundle_res = resample_tractogram(example_bundle, step_size)
 	
-	print("Retrieving the affine slr transformation for example %s and target %s." %(exID, subjID))
-	affine = np.load('affine_m%s_s%s.npy' %(exID, subjID))
-	print("Applying the affine to the example bundle.")
-	example_bundle_aligned = np.array([apply_affine(affine, s) for s in example_bundle_res])
+	if slr:
+		print("Retrieving the affine slr transformation for example %s and target %s." %(exID, subjID))
+		affine = np.load('affine_m%s_s%s.npy' %(exID, subjID))
+		print("Applying the affine to the example bundle.")
+		example_bundle_aligned = np.array([apply_affine(affine, s) for s in example_bundle_res])
+	else:
+		print("Assuming subjects already co-registered in the same space.")
+		example_bundle_aligned = example_bundle_res
 	
 	print("Compute the dissimilarity representation of the target tractogram and build the kd-tree.")
 	static_tractogram = nib.streamlines.load(static_tractogram)
