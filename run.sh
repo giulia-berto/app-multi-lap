@@ -7,7 +7,6 @@ t1_static=`jq -r '.t1_static' config.json`
 segmentations=`jq -r '.segmentations' config.json`
 movings=`jq -r '.tractograms_moving' config.json`
 t1s=`jq -r '.t1s_moving' config.json`
-true_segmentation=`jq -r '.true_segmentation' config.json`
 tractID=`jq -r '.tract' config.json`
 
 # Building arrays
@@ -36,11 +35,6 @@ else
 	exit 1
 fi
 done
-id_fs=$(jq -r "._inputs[2+$num_ex+$num_ex+$num_ex].meta.subject" config.json | tr -d "_")
-if [ ! $subjID == $id_fs ]; then
-echo "Inputs subject id incorrectly inserted. Check them again."
-	exit 1
-fi
 
 echo "Building LAP environment"
 if [ -f "linear_assignment.c" ];then
