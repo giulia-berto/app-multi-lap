@@ -117,7 +117,7 @@ else
 		tractogram_moving=tractograms_directory/$id_mov'_track.trk'		
 		seg_file=${arr_seg[i]//[,\"]}
 		#matlab -nosplash -nodisplay -r "afqConverterMulti(${arr_seg[i]//,}, ${arr_t1s[i]//,})";
-		python convert_wmc2trk.py -moving $tractogram_moving -classification $seg_file -t1 $t1_moving
+		python wmc2trk.py -tractogram $tractogram_moving -classification $seg_file -tractID $tractID
 		while read tract_name; do
 			echo "Tract name: $tract_name";
 			if [ ! -d "examples_directory_$tract_name" ]; then
@@ -156,75 +156,13 @@ else
 	echo "multi-LAP done."
 fi
 
-echo "Computing ROC curve for multi-LAP"
-mkdir csv;
-while read tract_name; do
-	echo "Tract name: $tract_name"; 
-	candidate_idx_lap=candidate_bundle_idx_lap.npy
-	min_cost_lap=min_cost_values_lap.npy
-	output_filename=${subjID}_${tract_name}_ROC_${run}.png
-	python plot_roc_curve.py -candidate_idx $candidate_idx_lap -cost $min_cost_lap -true_tract $tract_name'_tract.trk' -static $subjID'_track.trk';
-
-done < tract_name_list.txt
-
-
-echo "Running multi-NN"
-mkdir tracts_tck_nn;
-run=multi-NN	
-
-while read tract_name; do
-	echo "Tract name: $tract_name"; 
-	base_name=$tract_name'_tract'
-	output_filename=tracts_tck_nn/${subjID}_${base_name}_${run}.tck
-	python nn_multiple_examples.py -moving_dir tractograms_directory -static $subjID'_track.trk' -ex_dir examples_directory_$tract_name -out $output_filename;
-
-done < tract_name_list.txt
-
-if [ -z "$(ls -A -- "tracts_tck_nn")" ]; then    
-	echo "multi-NN failed."
+echo "Building the wmc structure"
+python wmc2trk.py -tractogram $static -tract_idx 'estimated_bundle_idx_lap.npy' -tractID $tractID
+if [ -f 'classification.mat' ]; then 
+    echo "WMC structure created."
+else 
+	echo "WMC structure missing."
 	exit 1
-else    
-	echo "multi-NN done."
-fi
-
-echo "Computing ROC curve for multi-NN"
-while read tract_name; do
-	echo "Tract name: $tract_name"; 
-	candidate_idx_nn=candidate_bundle_idx_nn.npy
-	min_cost_nn=min_cost_values_nn.npy
-	output_filename=${subjID}_${tract_name}_ROC_${run}.png
-	python plot_roc_curve.py -candidate_idx $candidate_idx_nn -cost $min_cost_nn -true_tract $tract_name'_tract.trk' -static $subjID'_track.trk';
-
-done < tract_name_list.txt
-
-cp csv/output_FiberStats.csv ./output_FiberStats.csv
-
-if [[ $true_segmentation == *.trk ]];then
-	est_tck=$(ls tracts_tck)
-	echo "${est_tck}"
-	python tck2trk.py $t1_static tracts_tck/${est_tck}
-	mv tracts_tck/*.trk track.trk
-else
-	echo "Build partial tractogram"
-	run=multi-LAP
-	output_filename=${subjID}'_var-partial_tract_'${run}'.tck';
-	python build_partial_tractogram.py -tracts_tck_dir 'tracts_tck' -out ${output_filename};
-	if [ -f ${output_filename} ]; then 
-	    echo "Partial tractogram built."
-	else 
-		echo "Partial tractogram missing."
-		exit 1
-	fi
-	echo "Build a wmc structure"
-	stat_sub=\'$subjID\'
-	tag=\'$run\'
-	matlab -nosplash -nodisplay -r "build_wmc_structure($stat_sub, $tag)";
-	if [ -f 'output.mat' ]; then 
-	    echo "WMC structure created."
-	else 
-		echo "WMC structure missing."
-		exit 1
-	fi
 fi
 
 echo "Complete"

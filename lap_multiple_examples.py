@@ -66,6 +66,7 @@ def lap_multiple_examples(moving_tractograms_dir, static_tractogram, ex_dir, out
 
 		print("Extracting the estimated bundle...")
 		estimated_bundle_idx_ranked_med = estimated_bundle_idx_ranked[0:int(example_bundle_len_med)]
+		np.save('estimated_bundle_idx_lap.npy', estimated_bundle_idx_ranked_med)
 
 		with open('config.json') as f:
             		data = json.load(f)

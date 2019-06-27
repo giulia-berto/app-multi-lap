@@ -24,6 +24,9 @@ def wmc2trk(trk_file, classification, tractID):
     idx_tract = np.array(np.where(indeces==tractID))[0]
     tract = tractogram[idx_tract]
 
+    with open('tract_name_list.txt', 'w') as filetowrite:
+    	filetowrite.write('%s\n' %tract_name)
+
 	#creating empty hader 		
     hdr = nib.streamlines.trk.TrkFile.create_empty_header()
     hdr['voxel_sizes'] = voxel_sizes
@@ -32,7 +35,7 @@ def wmc2trk(trk_file, classification, tractID):
     hdr['voxel_to_rasmm'] = aff_vox_to_ras
 
     #saving tract
-    out_filename = '%s.trk' %tract_name
+    out_filename = '%s_tract.trk' %tract_name
     t = nib.streamlines.tractogram.Tractogram(tract, affine_to_rasmm=np.eye(4))
     nib.streamlines.save(t, out_filename, header=hdr)
     print("Tract saved in %s" % out_filename)
