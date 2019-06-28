@@ -33,7 +33,7 @@ def wmc2trk(trk_file, classification, tractID_list):
     	idx_tract = np.array(np.where(indeces==tractID))[0]
     	tract = tractogram[idx_tract]
 
-    	with open('tract_name_list.txt', 'wa') as filetowrite:
+    	with open('tract_name_list.txt', 'a') as filetowrite:
     		filetowrite.write('%s\n' %tract_name)
 
     	#saving tract
