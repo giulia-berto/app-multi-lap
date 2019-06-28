@@ -153,7 +153,7 @@ else
 fi
 
 echo "Building the wmc structure"
-python wmc2trk.py -tractogram $static -tract_idx 'estimated_bundle_idx_lap.npy' -tractID $tractID
+python build_wmc.py -tractogram $static -tract_idx 'estimated_bundle_idx_lap.npy' -tractID $tractID
 if [ -f 'classification.mat' ]; then 
     echo "WMC structure created."
 else 
