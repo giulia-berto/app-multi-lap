@@ -75,7 +75,7 @@ def lap_single_example(moving_tractogram, static_tractogram, example):
 		example_bundle_aligned = np.array([apply_affine(affine, s) for s in example_bundle_res])
 	else:
 		print("Assuming subjects already co-registered in the same space.")
-		example_bundle_aligned = example_bundle_res
+		example_bundle_aligned = np.array(example_bundle_res)
 	
 	print("Compute the dissimilarity representation of the target tractogram and build the kd-tree.")
 	static_tractogram = nib.streamlines.load(static_tractogram)
