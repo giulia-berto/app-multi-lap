@@ -58,7 +58,7 @@ def lap_single_example(moving_tractogram, static_tractogram, example):
 	    data = json.load(f)
 	    k = data["k"]
 	    step_size = data["step_size"]
-		slr = data["slr"]
+	    slr = data["slr"]
 	distance_func = bundles_distances_mam
 
 	subjID = ntpath.basename(static_tractogram)[0:6]
