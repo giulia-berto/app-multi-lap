@@ -25,6 +25,7 @@ fi
 
 #removing files
 rm *.nii.gz -f
+rm *.tck
 rm -r tractograms_directory -f
 rm -r examples_directory* -f
 rm kdt -f
