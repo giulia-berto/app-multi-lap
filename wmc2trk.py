@@ -51,11 +51,11 @@ if __name__ == '__main__':
                         help='The tractogram file')
     parser.add_argument('-classification', nargs='?', const=1, default='',
                         help='The classification.mat file')
-    parser.add_argument('-list', nargs='?', const=1, default='',
-                        help='The tract ids list')
     args = parser.parse_args()
     
-    tractID_list = np.array(eval(args.list))   
+    with open('config.json') as f:
+    	data = json.load(f)
+    	tractID_list = np.array(eval(data["tractID_list"]))  
     
     print("Convert the wmc structure into multiple trk files")
     wmc2trk(args.tractogram, args.classification, tractID_list)

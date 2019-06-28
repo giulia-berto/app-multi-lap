@@ -69,11 +69,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-tractogram', nargs='?', const=1, default='',
                         help='The tractogram file')
-    parser.add_argument('-list', nargs='?', const=1, default='',
-                        help='The tract ids list')
     args = parser.parse_args()
 
-    tractID_list = np.array(eval(args.list)) 
+    with open('config.json') as f:
+    	data = json.load(f)
+    	tractID_list = np.array(eval(data["tractID_list"]))
     
     build_wmc(args.tractogram, tractID_list)
 

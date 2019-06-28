@@ -7,7 +7,6 @@ t1_static=`jq -r '.t1_static' config.json`
 segmentations=`jq -r '.segmentations' config.json`
 movings=`jq -r '.tractograms_moving' config.json`
 t1s=`jq -r '.t1s_moving' config.json`
-tractID_list=`jq -r '.tract' config.json`
 slr=`jq -r '.slr' config.json`
  
 # Building arrays
@@ -115,7 +114,7 @@ else
 		id_mov=$(jq -r "._inputs[1+$i+$num_ex].meta.subject" config.json | tr -d "_")
 		tractogram_moving=tractograms_directory/$id_mov'_track.trk'		
 		seg_file=${arr_seg[i]//[,\"]}
-		python wmc2trk.py -tractogram $tractogram_moving -classification $seg_file -list $tractID_list
+		python wmc2trk.py -tractogram $tractogram_moving -classification $seg_file
 		while read tract_name; do
 			echo "Tract name: $tract_name";
 			if [ ! -d "examples_directory_$tract_name" ]; then
@@ -154,7 +153,7 @@ else
 fi
 
 echo "Building the wmc structure"
-python build_wmc.py -tractogram $static -list $tractID_list
+python build_wmc.py -tractogram $static
 if [ -f 'classification.mat' ]; then 
     echo "WMC structure created."
 else 
