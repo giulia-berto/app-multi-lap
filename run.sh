@@ -7,7 +7,7 @@ t1_static=`jq -r '.t1_static' config.json`
 segmentations=`jq -r '.segmentations' config.json`
 movings=`jq -r '.tractograms_moving' config.json`
 t1s=`jq -r '.t1s_moving' config.json`
-tractID=`jq -r '.tract' config.json`
+tractID_list=`jq -r '.tract' config.json`
 slr=`jq -r '.slr' config.json`
  
 # Building arrays
@@ -99,7 +99,7 @@ fi
 echo "Create examples directory"
 if [[ $static == *.trk ]];then
 	echo "Tracts already in .trk format"
-	tract_name=$(jq -r "._inputs[2+$num_ex].tags[0]" config.json | tr -d "_")
+	tract_name=$(jq -r "._inputs[2].tags[0]" config.json | tr -d "_")
 	echo $tract_name > tract_name_list.txt
 	mkdir examples_directory_$tract_name;
 	for i in `seq 1 $num_ex`; 
@@ -115,7 +115,7 @@ else
 		id_mov=$(jq -r "._inputs[1+$i+$num_ex].meta.subject" config.json | tr -d "_")
 		tractogram_moving=tractograms_directory/$id_mov'_track.trk'		
 		seg_file=${arr_seg[i]//[,\"]}
-		python wmc2trk.py -tractogram $tractogram_moving -classification $seg_file -tractID $tractID
+		python wmc2trk.py -tractogram $tractogram_moving -classification $seg_file -list $tractID_list
 		while read tract_name; do
 			echo "Tract name: $tract_name";
 			if [ ! -d "examples_directory_$tract_name" ]; then
@@ -142,6 +142,7 @@ while read tract_name; do
 	base_name=$tract_name'_tract'
 	output_filename=tracts_tck/${subjID}_${base_name}_${run}.tck
 	python lap_multiple_examples.py -moving_dir tractograms_directory -static $subjID'_track.trk' -ex_dir examples_directory_$tract_name -out $output_filename;
+	mv estimated_bundle_idx_lap.npy estimated_bundle_idx_lap_'$tract_name'.npy
 
 done < tract_name_list.txt
 
@@ -153,7 +154,7 @@ else
 fi
 
 echo "Building the wmc structure"
-python build_wmc.py -tractogram $static -tract_idx 'estimated_bundle_idx_lap.npy' -tractID $tractID
+python build_wmc.py -tractogram $static -list $tractID_list
 if [ -f 'classification.mat' ]; then 
     echo "WMC structure created."
 else 

@@ -7,9 +7,9 @@ import nibabel as nib
 from scipy.io import loadmat
 
 
-def wmc2trk(trk_file, classification, tractID):
+def wmc2trk(trk_file, classification, tractID_list):
     """
-    Convert a single wmc classified tract into a single trk file.
+    Convert the wmc structure into multiple trk files.
     """
     tractogram = nib.streamlines.load(trk_file)
     aff_vox_to_ras = tractogram.affine
@@ -18,14 +18,7 @@ def wmc2trk(trk_file, classification, tractID):
     tractogram = tractogram.streamlines
     wmc = loadmat(classification)
     data = wmc["classification"][0][0]
-    t_name = data[0][0][tractID][0]
-    tract_name = t_name.replace(' ', '_')
     indeces = data[1]
-    idx_tract = np.array(np.where(indeces==tractID))[0]
-    tract = tractogram[idx_tract]
-
-    with open('tract_name_list.txt', 'w') as filetowrite:
-    	filetowrite.write('%s\n' %tract_name)
 
 	#creating empty hader 		
     hdr = nib.streamlines.trk.TrkFile.create_empty_header()
@@ -34,11 +27,20 @@ def wmc2trk(trk_file, classification, tractID):
     hdr['voxel_order'] = 'LAS'
     hdr['voxel_to_rasmm'] = aff_vox_to_ras
 
-    #saving tract
-    out_filename = '%s_tract.trk' %tract_name
-    t = nib.streamlines.tractogram.Tractogram(tract, affine_to_rasmm=np.eye(4))
-    nib.streamlines.save(t, out_filename, header=hdr)
-    print("Tract saved in %s" % out_filename)
+    for tractID in tractID_list:
+    	t_name = data[0][0][tractID][0]
+    	tract_name = t_name.replace(' ', '_')
+    	idx_tract = np.array(np.where(indeces==tractID))[0]
+    	tract = tractogram[idx_tract]
+
+    	with open('tract_name_list.txt', 'wa') as filetowrite:
+    		filetowrite.write('%s\n' %tract_name)
+
+    	#saving tract
+    	out_filename = '%s_tract.trk' %tract_name
+    	t = nib.streamlines.tractogram.Tractogram(tract, affine_to_rasmm=np.eye(4))
+    	nib.streamlines.save(t, out_filename, header=hdr)
+    	print("Tract saved in %s" % out_filename)
 
 
 
@@ -49,11 +51,13 @@ if __name__ == '__main__':
                         help='The tractogram file')
     parser.add_argument('-classification', nargs='?', const=1, default='',
                         help='The classification.mat file')
-    parser.add_argument('-tractID', nargs='?', const=1, default='',
-                        help='The tract id')
+    parser.add_argument('-list', nargs='?', const=1, default='',
+                        help='The tract ids list')
     args = parser.parse_args()
     
-    print("Convert a single wmc classified tract into a single trk file")
-    wmc2trk(args.tractogram, args.classification, eval(args.tractID))
+    tractID_list = np.array(eval(args.list))   
+    
+    print("Convert the wmc structure into multiple trk files")
+    wmc2trk(args.tractogram, args.classification, tractID_list)
 
     sys.exit()
