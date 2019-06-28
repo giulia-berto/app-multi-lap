@@ -97,28 +97,41 @@ else
 fi
 
 echo "Create examples directory"
-for i in `seq 1 $num_ex`; 
-do
-	t1_moving=${arr_t1s[i]//[,\"]}
-	id_mov=$(jq -r "._inputs[1+$i+$num_ex].meta.subject" config.json | tr -d "_")
-	tractogram_moving=tractograms_directory/$id_mov'_track.trk'		
-	seg_file=${arr_seg[i]//[,\"]}
-	python wmc2trk.py -tractogram $tractogram_moving -classification $seg_file -tractID $tractID
-	while read tract_name; do
-		echo "Tract name: $tract_name";
-		if [ ! -d "examples_directory_$tract_name" ]; then
-  			mkdir examples_directory_$tract_name;
-		fi
-		mv $tract_name'_tract.trk' examples_directory_$tract_name/$id_mov'_'$tract_name'_tract.trk';
+if [[ $static == *.trk ]];then
+	echo "Tracts already in .trk format"
+	tract_name=$(jq -r "._inputs[2+$num_ex].tags[0]" config.json | tr -d "_")
+	echo $tract_name > tract_name_list.txt
+	mkdir examples_directory_$tract_name;
+	for i in `seq 1 $num_ex`; 
+	do
+		id_mov=$(jq -r "._inputs[1+$i+$num_ex].meta.subject" config.json | tr -d "_")
+		cp ${arr_seg[i]//[,\"]} examples_directory_$tract_name/$id_mov'_'$tract_name'_tract.trk';
+	done
+else
+	echo "Tracts conversion to trk"
+	for i in `seq 1 $num_ex`; 
+	do
+		t1_moving=${arr_t1s[i]//[,\"]}
+		id_mov=$(jq -r "._inputs[1+$i+$num_ex].meta.subject" config.json | tr -d "_")
+		tractogram_moving=tractograms_directory/$id_mov'_track.trk'		
+		seg_file=${arr_seg[i]//[,\"]}
+		python wmc2trk.py -tractogram $tractogram_moving -classification $seg_file -tractID $tractID
+		while read tract_name; do
+			echo "Tract name: $tract_name";
+			if [ ! -d "examples_directory_$tract_name" ]; then
+  				mkdir examples_directory_$tract_name;
+			fi
+			mv $tract_name'_tract.trk' examples_directory_$tract_name/$id_mov'_'$tract_name'_tract.trk';
 
-		if [ -z "$(ls -A -- "examples_directory_$tract_name")" ]; then    
-			echo "examples_directory is empty."; 
-			exit 1;
-		else    
-			echo "examples_directory created."; 
-		fi	
-	done < tract_name_list.txt
-done
+			if [ -z "$(ls -A -- "examples_directory_$tract_name")" ]; then    
+				echo "examples_directory is empty."; 
+				exit 1;
+			else    
+				echo "examples_directory created."; 
+			fi	
+		done < tract_name_list.txt
+	done
+fi
 
 echo "Running multi-LAP"
 mkdir tracts_tck;
