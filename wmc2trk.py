@@ -28,7 +28,7 @@ def wmc2trk(trk_file, classification, tractID_list):
     hdr['voxel_to_rasmm'] = aff_vox_to_ras
 
     for tractID in tractID_list:
-    	t_name = data[0][0][tractID][0]
+    	t_name = data[0][0][tractID-1][0]
     	tract_name = t_name.replace(' ', '_')
     	idx_tract = np.array(np.where(indeces==tractID))[0]
     	tract = tractogram[idx_tract]
