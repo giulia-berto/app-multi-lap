@@ -7,6 +7,7 @@ import nibabel as nib
 import scipy.io as sio
 from matplotlib import cm
 from json import encoder
+from matplotlib import colors as mcolors
 
 encoder.FLOAT_REPR = lambda o: format(o, '.2f') 
 
@@ -25,6 +26,10 @@ def build_wmc(tck_file, tractID_list):
     with open('tract_name_list.txt') as f:
     	tract_name_list = f.read().splitlines()
 
+    colors = dict(mcolors.BASE_COLORS, **mcolors.CSS4_COLORS)
+    by_hsv = sorted((tuple(mcolors.rgb_to_hsv(mcolors.to_rgba(color)[:3])), name)
+             for name, color in colors.items())
+
     for t, tractID in enumerate(tractID_list):
     	tract_name = tract_name_list[t]
     	idx_fname = 'estimated_bundle_idx_lap_%s.npy' %tract_name		
@@ -38,7 +43,8 @@ def build_wmc(tck_file, tractID_list):
     	streamlines = np.zeros([count], dtype=object)
     	for e in range(count):
     		streamlines[e] = np.transpose(tract[e]).round(2)
-    	color=list(cm.nipy_spectral(t))[0:3]
+    	#color=list(cm.nipy_spectral(t))[0:3]
+    	color = by_hsv[tractID*2][0]
 
     	print("sub-sampling for json")
     	if count < 1000:
