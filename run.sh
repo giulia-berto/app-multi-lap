@@ -160,5 +160,3 @@ else
 	echo "WMC structure missing."
 	exit 1
 fi
-
-echo "Complete"

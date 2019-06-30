@@ -22,6 +22,7 @@ def build_wmc(tck_file, tractID_list):
     labels = np.zeros((len(tractogram),1))
     os.makedirs('tracts')
     tractsfile = []
+    names = np.empty(tractID_list[-1], dtype=object)
     
     with open('tract_name_list.txt') as f:
     	tract_name_list = f.read().splitlines()
@@ -63,9 +64,10 @@ def build_wmc(tck_file, tractID_list):
     	splitname = tract_name.split('_')
     	fullname = splitname[-1].capitalize()+' '+' '.join(splitname[0:-1])  
     	tractsfile.append({"name": fullname, "color": color, "filename": filename})
+    	names[tractID-1] = tract_name    	
 
     print("saving classification.mat")
-    sio.savemat('classification.mat', { "classification": {"names": tract_name, "index": labels }})
+    sio.savemat('classification.mat', { "classification": {"names": names, "index": labels }})
 
     with open ('tracts/tracts.json', 'w') as outfile:
     	json.dump(tractsfile, outfile, separators=(',', ': '), indent=4)
