@@ -114,6 +114,7 @@ else
 		id_mov=$(jq -r "._inputs[1+$i+$num_ex].meta.subject" config.json | tr -d "_")
 		tractogram_moving=tractograms_directory/$id_mov'_track.trk'		
 		seg_file=${arr_seg[i]//[,\"]}
+		rm -f tract_name_list.txt;
 		python wmc2trk.py -tractogram $tractogram_moving -classification $seg_file
 		while read tract_name; do
 			echo "Tract name: $tract_name";
