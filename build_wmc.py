@@ -29,6 +29,7 @@ def build_wmc(tck_file, tractID_list):
     colors = dict(mcolors.BASE_COLORS, **mcolors.CSS4_COLORS)
     by_hsv = sorted((tuple(mcolors.rgb_to_hsv(mcolors.to_rgba(color)[:3])), name)
              for name, color in colors.items())
+    permuted_colors = np.random.permutation(by_hsv)
 
     for t, tractID in enumerate(tractID_list):
     	tract_name = tract_name_list[t]
@@ -43,8 +44,8 @@ def build_wmc(tck_file, tractID_list):
     	streamlines = np.zeros([count], dtype=object)
     	for e in range(count):
     		streamlines[e] = np.transpose(tract[e]).round(2)
-    	#color=list(cm.nipy_spectral(t))[0:3]
-    	color = by_hsv[tractID*2][0]
+    	#color=list(cm.nipy_spectral(t+10))[0:3]
+    	color = by_hsv[tractID][0]
 
     	print("sub-sampling for json")
     	if count < 1000:
@@ -76,6 +77,8 @@ if __name__ == '__main__':
     parser.add_argument('-tractogram', nargs='?', const=1, default='',
                         help='The tractogram file')
     args = parser.parse_args()
+
+    np.random.seed(0)
 
     with open('config.json') as f:
     	data = json.load(f)
