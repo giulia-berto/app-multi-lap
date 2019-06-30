@@ -153,7 +153,7 @@ else
 fi
 
 echo "Building the wmc structure"
-python build_wmc.py -tractogram $static -list
+python build_wmc.py -tractogram $static
 if [ -f 'classification.mat' ]; then 
     echo "WMC structure created."
 else 
