@@ -38,7 +38,7 @@ def build_wmc(tck_file, tractID_list):
     	streamlines = np.zeros([count], dtype=object)
     	for e in range(count):
     		streamlines[e] = np.transpose(tract[e]).round(2)
-    	color=list(cm.nipy_spectral(t+10))[0:3]
+    	color=list(cm.nipy_spectral(t))[0:3]
 
     	print("sub-sampling for json")
     	if count < 1000:
