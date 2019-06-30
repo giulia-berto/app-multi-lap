@@ -82,7 +82,7 @@ if __name__ == '__main__':
 
     with open('config.json') as f:
     	data = json.load(f)
-    	tractID_list = np.array(eval(data["tractID_list"]))
+    	tractID_list = np.array(eval(data["tractID_list"]), ndmin=1)
     
     build_wmc(args.tractogram, tractID_list)
 
