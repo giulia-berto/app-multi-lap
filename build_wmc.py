@@ -53,7 +53,7 @@ def build_wmc(tck_file, tractID_list):
     		jsonfile = {'name': tract_name, 'color': color, 'coords': jsonfibers}
     		json.dump(jsonfile, outfile)
     
-    	splitname = tract_name[0].split('_')
+    	splitname = tract_name.split('_')
     	fullname = splitname[-1].capitalize()+' '+' '.join(splitname[0:-1])  
     	tractsfile.append({"name": fullname, "color": color, "filename": filename})
 

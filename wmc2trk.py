@@ -57,6 +57,7 @@ if __name__ == '__main__':
     	data = json.load(f)
     tractID_list = np.array(eval(data["tractID_list"]))  
     print(tractID_list)
+
     print("Convert the wmc structure into multiple trk files")
     wmc2trk(args.tractogram, args.classification, tractID_list)
 
