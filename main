@@ -16,7 +16,7 @@ unset PYTHONPATH
 export PATH=/N/u/gberto/Karst/miniconda2/bin:$PATH 
 
 #execute app
-#./run.sh
+./run.sh
 
 ret=$?
 if [ ! $ret -eq 0 ]; then
