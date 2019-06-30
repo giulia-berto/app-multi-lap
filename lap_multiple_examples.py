@@ -94,6 +94,6 @@ if __name__ == '__main__':
 
 	t0=time.time()
 	result_lap = lap_multiple_examples(args.moving_dir, args.static, args.ex_dir, args.out)
-	print("Time for computing multiple-lap = %s minutes" %((time.time()-t0))/60)
+	print("Time for computing multiple-lap = %i minutes" %((time.time()-t0)/60))
 
 	sys.exit()    
