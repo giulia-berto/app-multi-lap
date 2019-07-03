@@ -96,7 +96,7 @@ else
 fi
 
 echo "Create examples directory"
-if [[ $static == *.trk ]];then
+if [[ ${arr_seg[1]//[,\"]} == *.trk ]];then
 	echo "Tracts already in .trk format"
 	tract_name=$(jq -r "._inputs[2].tags[0]" config.json | tr -d "_")
 	echo $tract_name > tract_name_list.txt
