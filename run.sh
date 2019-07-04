@@ -161,3 +161,12 @@ else
 	echo "WMC structure missing."
 	exit 1
 fi
+
+if [[ ${arr_seg[1]//[,\"]} == *.trk ]];then
+	echo "Saving the tract also in .trk format"
+	est_tck=$(ls tracts_tck)
+	echo "${est_tck}"
+	python tck2trk.py $t1_static tracts_tck/${est_tck}
+	mv tracts_tck/*.trk track.trk
+fi
+
