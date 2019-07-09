@@ -10,16 +10,17 @@ from dipy.tracking.utils import length
 from sklearn.neighbors import KDTree
 
 
-def resample_tractogram(tractogram, step_size, min_th=2.5, max_th=250):
+def resample_tractogram(tractogram, step_size):
     """Resample the tractogram with the given step size.
     """
     lengths=list(length(tractogram))
     tractogram_res = []
     for i, f in enumerate(tractogram):
-    	if lengths[i]<min_th or lengths[i]>max_th:
-    		continue
-    	nb_res_points = np.int(np.ceil(lengths[i]/step_size))
-        tmp = set_number_of_points(f, nb_res_points)
+    	if lengths[i]>step_size:
+    		nb_res_points = np.int(np.ceil(lengths[i]/step_size))
+        	tmp = set_number_of_points(f, nb_res_points)
+	else:	
+    		tmp = f
     	tractogram_res.append(tmp)
     tractogram_res = nib.streamlines.array_sequence.ArraySequence(tractogram_res)
     return tractogram_res
