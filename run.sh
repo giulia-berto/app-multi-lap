@@ -89,7 +89,7 @@ if [[ $slr == true ]];then
 	do
 		id_mov=$(jq -r "._inputs[1+$i+$num_ex].meta.subject" config.json | tr -d "_")
 		tractogram_moving=tractograms_directory/$id_mov'_track.trk'
-		python tractograms_slr.py -moving $tractogram_moving -static $subjID'_track.trk'
+		python tractograms_slr.py -moving $tractogram_moving -movID $id_mov -static $subjID'_track.trk' -statID $subjID
 	done
 else
 	echo "Assuming subjects already co-registered in the same space."
