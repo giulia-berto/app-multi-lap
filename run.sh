@@ -52,7 +52,7 @@ else
 fi
 
 echo "Tractogram conversion to trk"
-mkdir tractograms_directory;
+mkdir -p tractograms_directory;
 if [[ $static == *.tck ]];then
 	echo "Input in tck format. Convert it to trk."
 	cp $static ./tractogram_static.tck;
@@ -134,7 +134,7 @@ else
 fi
 
 echo "Running multi-LAP"
-mkdir tracts_tck;
+mkdir -p tracts_tck;
 run=multi-LAP	
 
 while read tract_name; do
@@ -162,8 +162,12 @@ else
 	exit 1
 fi
 
+mkdir -p output_wmc
+mv tracts output_wmc
+cp classification.mat output_wmc
+
 if [[ ${arr_seg[1]//[,\"]} == *.trk ]];then
-	echo "Saving the tract also in .trk format"
+	echo "Saving the tracts also in .trk format"
 	est_tck=$(ls tracts_tck)
 	echo "${est_tck}"
 	python tck2trk.py $t1_static tracts_tck/${est_tck}
