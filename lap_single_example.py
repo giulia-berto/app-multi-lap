@@ -86,7 +86,7 @@ def lap_single_example(moving_tractogram, static_tractogram, example):
 		print("Retrieving past results for kdt and prototypes.")
 		kdt_filename='kdt'
 		kdt = pickle.load(open(kdt_filename))
-		prototypes = np.load('prototypes.npy')
+		prototypes = np.load('prototypes.npy', allow_pickle=True)
 	else:
 		kdt, prototypes = compute_kdtree_and_dr_tractogram(static_tractogram)
 		#Saving files
