@@ -2,19 +2,6 @@
 #PBS -k o
 #PBS -l nodes=1:ppn=16,vmem=31gb,walltime=10:00:00
 
-## modules
-#echo "Loading modules"
-#module unload python
-#module load dipy/dev
-#module load nodejs
-#echo "Finished loading modules"
-
-#export PYTHONPATH=/N/u/brlife/git/nibabel:$PYTHONPATH
-
-#echo "setting miniconda path..."
-#unset PYTHONPATH
-#export PATH=/N/u/gberto/Karst/miniconda2/bin:$PATH 
-
 set -e
 set -x
 
