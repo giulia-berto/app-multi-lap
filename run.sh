@@ -119,7 +119,7 @@ else
 		while read tract_name; do
 			echo "Tract name: $tract_name";
 			if [ ! -d "examples_directory_$tract_name" ]; then
-  				mkdir examples_directory_$tract_name;
+  				mkdir -p examples_directory_$tract_name;
 			fi
 			mv $tract_name'_tract.trk' examples_directory_$tract_name/$id_mov'_'$tract_name'_tract.trk';
 
