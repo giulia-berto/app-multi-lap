@@ -22,6 +22,16 @@ We kindly ask that you cite the following article when publishing papers and cod
 ["White Matter Tract Segmentation as Multiple Linear Assignment Problems"](https://doi.org/10.3389/fnins.2017.00754), Sharmin N., Olivetti E. and Avesani P. (2018) White Matter Tract Segmentation as Multiple Linear
 Assignment Problems. Front. Neurosci. 11:754. doi: 10.3389/fnins.2017.00754
 
+## Running the app
+### On [Brainlife.io](http://brainlife.io/) 
+You can submit this App online at https://doi.org/10.25663/brainlife.app.265 via the “Execute” tab.
+
+Inputs:
+To perform the bundle segmentation, you need two key elements: (i) the tractogram of the (target) subject you want to extract the bundle from and (ii) the wmc segmentations of multiple (example) subjects you want to learn from. Moreover, you have to provide the anatomical T1s and the tractograms of the (example) subjects (which are used to apply an initial Streamline Linear Registration (SLR) between tractograms).
+
+Output:
+You will get the wmc segmentation of the (single) bundle of interest in the target subject.
+
 version 1.0: multi-LAP and multi-NN, wmc-deprecated input \
 version 2.0: multi-LAP and multi-NN, trk input \
 version 3.0: multi-LAP, new wmc input or trk input
