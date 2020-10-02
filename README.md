@@ -48,3 +48,39 @@ You may provide as examples AFQ segmentations obtained by the app https://doi.or
 
 #### Branch 3.1:
 As branch 3.0 with some small enhancements.
+
+### Running locally
+1. git clone this repo.
+2. Inside the cloned directory, create `config.json` with something like the following content with paths to your input files:
+```
+{
+    "tractogram_static": "./track.tck",
+    "t1_static": "./t1.nii.gz",
+    "segmentations": [
+        "./sub-1/classification.mat",           
+        "./sub-2/classification.mat"
+    ],
+    "tracts": [
+        "./sub-1/tracts",
+        "./sub-2/tracts"
+    ],
+    "tractograms_moving": [
+        "./sub-1/track.tck",
+        "./sub-2/track.tck"
+    ],
+    "t1s_moving": [
+        "./sub-1/t1.nii.gz",
+        "./sub-2/t1.nii.gz"
+    ],
+    "tractID_list": "11, 12, 19, 20"
+}
+```
+3. Launch the App by executing `main`.
+```
+./main
+```
+
+#### Dependencies
+This App only requires [singularity](https://sylabs.io/singularity/) to run.
+
+#### MIT Copyright (c) 2020 Bruno Kessler Foundation (FBK)
