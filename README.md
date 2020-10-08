@@ -1,7 +1,7 @@
 [![Run on Brainlife.io](https://img.shields.io/badge/Brainlife-bl.app.209-blue.svg)](https://doi.org/10.25663/brainlife.app.209)
 
 # app-multi-lap
-This app segments white matter bundles by solving multiple Linear Assignment Problems (LAP or multi-LAP). The method is a supervised example-based segmentation method, and thus requires multiple bundles as examples to learn from. The segmentation is performed by means of fiber correspondence across subjects by considering the shape of the fibers (i.e. by computing fiber distances).
+This App segments white matter bundles by solving multiple Linear Assignment Problems (LAP or multi-LAP). The method is a supervised example-based segmentation method, and thus requires multiple bundles as examples to learn from. The segmentation is performed by means of fiber correspondence across subjects by considering the shape of the fibers (i.e. by computing fiber distances).
 
 ![](lap-original.png)
 
