@@ -19,8 +19,7 @@ We kindly ask that you acknowledge the funding below in your publications and co
 
 ### Citation
 We kindly ask that you cite the following article when publishing papers and code using this code: \
-["White Matter Tract Segmentation as Multiple Linear Assignment Problems"](https://doi.org/10.3389/fnins.2017.00754), Sharmin N., Olivetti E. and Avesani P. (2018) White Matter Tract Segmentation as Multiple Linear
-Assignment Problems. Front. Neurosci. 11:754. doi: 10.3389/fnins.2017.00754
+["White Matter Tract Segmentation as Multiple Linear Assignment Problems"](https://doi.org/10.3389/fnins.2017.00754), Sharmin N., Olivetti E. and Avesani P. (2018) White Matter Tract Segmentation as Multiple Linear Assignment Problems. Front. Neurosci. 11:754. doi: 10.3389/fnins.2017.00754
 
 ## Running the app
 ### On [Brainlife.io](http://brainlife.io/) 
