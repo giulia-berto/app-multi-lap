@@ -33,7 +33,7 @@ Output: \
 You will get the wmc segmentation of the bundle(s) of interest in the target subject.
 
 #### Branch 1.0:
-It also perform Nearest Neighbor (NN, or multi-NN) segmentation for comparison. This branch is associated with the App https://doi.org/10.25663/brainlife.app.174 (deprecated).
+It also performs Nearest Neighbor (NN, or multi-NN) segmentation for comparison. This branch is associated with the App https://doi.org/10.25663/brainlife.app.174 (deprecated).
 
 #### Branch 2.0:
 As branch 2.0, but with trk input (deprecated).
