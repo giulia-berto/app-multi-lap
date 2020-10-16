@@ -36,7 +36,7 @@ Inputs: \
 To perform the bundle segmentation, you need two key elements: (i) the tractogram of the (target) subject you want to extract the bundle from and (ii) the wmc segmentations of multiple (example) subjects you want to learn from. Moreover, you have to provide the anatomical T1s and the tractograms of the (example) subjects (which are used to apply an initial Streamline Linear Registration (SLR) between tractograms). The wmc segmentation files you have to provide as examples should be obtained using the AFQ algorithm (https://doi.org/10.25663/bl.app.13) or the the WMA algorithm (https://doi.org/10.25663/bl.app.41). You can choose the bundle to be segmented (one at the time) by providing the id related to the bundle to be segmented, from 1 to 20 if providing AFQ segmentations, and from 1 to 78 if providing WMA segmentations. 
 
 Output: \
-You will get the wmc segmentation of the bundle(s) of interest in the target subject.
+You will get the wmc segmentation of the bundle(s) of interest in the target subject. Secondary outputs are ROC and AUC values for both multi-NN and multi-LAP.
 
 ### Running locally
 1. git clone this repo.
