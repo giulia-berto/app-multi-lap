@@ -1,7 +1,8 @@
-[![Run on Brainlife.io](https://img.shields.io/badge/Brainlife-bl.app.209-blue.svg)](https://doi.org/10.25663/brainlife.app.209)
+[![Abcdspec-compliant](https://img.shields.io/badge/ABCD_Spec-v1.1-green.svg)](https://github.com/brain-life/abcd-spec)
+[![Run on Brainlife.io](https://img.shields.io/badge/Brainlife-bl.app.209-blue.svg)](https://doi.org/10.25663/brainlife.app.174)
 
-# app-multi-lap
-This App segments white matter bundles by solving multiple Linear Assignment Problems (LAP or multi-LAP). The method is a supervised example-based segmentation method, and thus requires multiple bundles as examples to learn from. The segmentation is performed by means of fiber correspondence across subjects by considering the shape of the fibers (i.e. by computing fiber distances).
+# app-multi-lap-and-multi-nn
+This App segments white matter bundles by solving multiple Linear Assignment Problems (LAP or multi-LAP). The method is a supervised example-based segmentation method, and thus requires multiple bundles as examples to learn from. The segmentation is performed by means of fiber correspondence across subjects by considering the shape of the fibers (i.e. by computing fiber distances). It also performs Nearest Neighbor (NN, or multi-NN) segmentation for comparison. 
 
 ![](lap-original.png)
 
@@ -12,18 +13,24 @@ This App segments white matter bundles by solving multiple Linear Assignment Pro
 - Emanuele Olivetti (olivetti@fbk.eu)
 
 ### Funding Acknowledgement
-We kindly ask that you acknowledge the funding below in your publications and code reusing this code. \
+brainlife.io is publicly funded and for the sustainability of the project it is helpful to Acknowledge the use of the platform. We kindly ask that you acknowledge the funding below in your publications and code reusing this code.
+
 [![NSF-BCS-1734853](https://img.shields.io/badge/NSF_BCS-1734853-blue.svg)](https://nsf.gov/awardsearch/showAward?AWD_ID=1734853)
 [![NSF-BCS-1636893](https://img.shields.io/badge/NSF_BCS-1636893-blue.svg)](https://nsf.gov/awardsearch/showAward?AWD_ID=1636893)
-[![NSF-AOC-1916518](https://img.shields.io/badge/NSF_AOC-1916518-blue.svg)](https://nsf.gov/awardsearch/showAward?AWD_ID=1916518)
+[![NSF-ACI-1916518](https://img.shields.io/badge/NSF_ACI-1916518-blue.svg)](https://nsf.gov/awardsearch/showAward?AWD_ID=1916518)
+[![NSF-IIS-1912270](https://img.shields.io/badge/NSF_IIS-1912270-blue.svg)](https://nsf.gov/awardsearch/showAward?AWD_ID=1912270)
+[![NIH-NIBIB-R01EB029272](https://img.shields.io/badge/NIH_NIBIB-R01EB029272-green.svg)](https://grantome.com/grant/NIH/R01-EB029272-01)
 
-### Citation
-We kindly ask that you cite the following article when publishing papers and code using this code: \
-["White Matter Tract Segmentation as Multiple Linear Assignment Problems"](https://doi.org/10.3389/fnins.2017.00754), Sharmin N., Olivetti E. and Avesani P. (2018) White Matter Tract Segmentation as Multiple Linear Assignment Problems. Front. Neurosci. 11:754. doi: 10.3389/fnins.2017.00754
+### Citations
+We kindly ask that you cite the following article when publishing papers and code using this code: 
+
+1. ["White Matter Tract Segmentation as Multiple Linear Assignment Problems"](https://doi.org/10.3389/fnins.2017.00754), Sharmin N., Olivetti E. and Avesani P. (2018) White Matter Tract Segmentation as Multiple Linear Assignment Problems. Front. Neurosci. 11:754. doi: 10.3389/fnins.2017.00754
+
+2. Avesani, P., McPherson, B., Hayashi, S. et al. The open diffusion data derivatives, brain data upcycling via integrated publishing of derivatives and reproducible open cloud services. Sci Data 6, 69 (2019). https://doi.org/10.1038/s41597-019-0073-y
 
 ## Running the app
 ### On [Brainlife.io](http://brainlife.io/) 
-You can submit this App online at https://doi.org/10.25663/brainlife.app.209 via the “Execute” tab.
+You can submit this App online at https://doi.org/10.25663/brainlife.app.174 via the “Execute” tab. WARNING: This App was used specifically for a Reproducibility Study and has been deprecated by the following App: https://doi.org/10.25663/brainlife.app.209.
 
 Inputs: \
 To perform the bundle segmentation, you need two key elements: (i) the tractogram of the (target) subject you want to extract the bundle from and (ii) the wmc segmentations of multiple (example) subjects you want to learn from. Moreover, you have to provide the anatomical T1s and the tractograms of the (example) subjects (which are used to apply an initial Streamline Linear Registration (SLR) between tractograms). The wmc segmentation files you have to provide as examples should be obtained using the AFQ algorithm (https://doi.org/10.25663/bl.app.13) or the the WMA algorithm (https://doi.org/10.25663/bl.app.41). You can choose the bundle to be segmented (one at the time) by providing the id related to the bundle to be segmented, from 1 to 20 if providing AFQ segmentations, and from 1 to 78 if providing WMA segmentations. 
@@ -32,21 +39,10 @@ Output: \
 You will get the wmc segmentation of the bundle(s) of interest in the target subject.
 
 #### Branch 1.0:
-It also performs Nearest Neighbor (NN, or multi-NN) segmentation for comparison. This branch is associated with the App https://doi.org/10.25663/brainlife.app.174 (deprecated).
+It also performs Nearest Neighbor (NN, or multi-NN) segmentation for comparison.
 
 #### Branch 2.0:
 As branch 2.0, but with trk input (deprecated).
-
-#### Branch 3.0:
-This branch implements the same functionalities of the branch 1.0 but with the following changes: 
-- uses the new wmc input 
-- SLR registration is optional
-- can run multiple bundles at the same time 
-
-You may provide as examples AFQ segmentations obtained by the app https://doi.org/10.25663/brainlife.app.207 or WMA segmentations obtained by the app https://doi.org/10.25663/brainlife.app.188.
-
-#### Branch 3.1:
-As branch 3.0 with some small enhancements.
 
 ### Running locally
 1. git clone this repo.
