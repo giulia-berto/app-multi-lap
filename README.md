@@ -38,12 +38,6 @@ To perform the bundle segmentation, you need two key elements: (i) the tractogra
 Output: \
 You will get the wmc segmentation of the bundle(s) of interest in the target subject.
 
-#### Branch 1.0:
-It also performs Nearest Neighbor (NN, or multi-NN) segmentation for comparison.
-
-#### Branch 2.0:
-As branch 2.0, but with trk input (deprecated).
-
 ### Running locally
 1. git clone this repo.
 2. Inside the cloned directory, create `config.json` with something like the following content with paths to your input files:
