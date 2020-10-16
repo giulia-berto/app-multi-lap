@@ -1,5 +1,5 @@
 [![Abcdspec-compliant](https://img.shields.io/badge/ABCD_Spec-v1.1-green.svg)](https://github.com/brain-life/abcd-spec)
-[![Run on Brainlife.io](https://img.shields.io/badge/Brainlife-bl.app.209-blue.svg)](https://doi.org/10.25663/brainlife.app.174)
+[![Run on Brainlife.io](https://img.shields.io/badge/Brainlife-bl.app.174-blue.svg)](https://doi.org/10.25663/brainlife.app.174)
 
 # app-multi-lap-and-multi-nn
 This App segments white matter bundles by solving multiple Linear Assignment Problems (LAP or multi-LAP). The method is a supervised example-based segmentation method, and thus requires multiple bundles as examples to learn from. The segmentation is performed by means of fiber correspondence across subjects by considering the shape of the fibers (i.e. by computing fiber distances). It also performs Nearest Neighbor (NN, or multi-NN) segmentation for comparison. 
